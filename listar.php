@@ -73,7 +73,7 @@
         <div class="row">
 
             <div class="card p-5" style="min-height: 200px; width: 100%" >
-                <table class="table table-striped" id="">
+                <table class="table table-striped table-responsive" id="listar">
                     <thead>
                     <tr>
                         <th scope="col">Nome</th>
@@ -81,17 +81,26 @@
                         <th scope="col">CPF</th>
                         <th scope="col">Telefone</th>
                         <th scope="col">CEP</th>
+                        <th scope="col" class="text-center">Ações</th>
                     </tr>
                     </thead>
                     <tbody>
                         <?php
                             foreach ($usuarios as $usuario) {
                                 echo "<tr>";
-                                echo "<td>".$usuario['nome']."</td>";
-                                echo "<td>".$usuario['email']."</td>";
-                                echo "<td>".$usuario['cpf']."</td>";
-                                echo "<td>".$usuario['telefone']."</td>";
-                                echo "<td>".$usuario['cep']."</td>";
+                                echo "<td class='align-middle'>".$usuario['nome']."</td>";
+                                echo "<td class='align-middle'>".$usuario['email']."</td>";
+                                echo "<td class='align-middle'>".$usuario['cpf']."</td>";
+                                echo "<td class='align-middle'>".$usuario['telefone']."</td>";
+                                echo "<td class='align-middle'>".$usuario['cep']."</td>";
+                                echo "<td class='align-middle'><div class='row'>
+                                            <div class='col-6 p-1'>
+                                                <a href='editar.php?id=".$usuario['id']."' class='btn btn-primary p-1' style='font-size: 15px'>Editar</a>
+                                            </div>
+                                            <div class='col-6 p-1'>
+                                                <a href='excluir.php?id=".$usuario['id']."' class='btn btn-danger p-1' style='font-size: 15px'>Excluir</a>
+                                            </div>
+                                        </div></td>";
                                 echo "</tr>";
                             }
                         ?>
