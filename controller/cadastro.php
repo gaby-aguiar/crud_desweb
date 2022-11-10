@@ -38,7 +38,8 @@ include_once '../config/conexao.php';
                     cidade,
                     uf               
                 ) VALUES (?,?,?,?,?,?,?,?,?)
-        ");
+            ");
+
             $stmt->bindParam(1, $nome);
             $stmt->bindParam(2, $email);
             $stmt->bindParam(3, $cpf);
