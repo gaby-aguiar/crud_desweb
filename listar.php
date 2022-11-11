@@ -15,13 +15,32 @@
 
     <link href="css/style.css" rel="stylesheet">
     <link href="js/data-tables/css/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <style>
+        .pagination {
+            border: 1px solid #dddddd;
+        }
+        .pagination{
+            align-self: flex-end;
+        }
+        .pagination a{
+            border-left: 1px solid #dddddd;
+            padding: 8px 12px;
+        }
+    </style>
 </head>
 <body>
 
 <?php
     include_once 'config/conexao.php';
+    $pagina_atual = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
+    $pagina = (!empty($pagina_atual)) ? $pagina_atual : 1;
 
-    $usuarios = $conn->query("SELECT * FROM usuarios ")->fetchAll();
+    $limite = 5;
+
+    $inicio = ($limite * $pagina) - $limite;
+
+    $usuarios = $conn->query("SELECT * FROM usuarios ORDER BY id desc LIMIT $inicio, $limite")->fetchAll();
 
 ?>
 
@@ -61,7 +80,7 @@
     <img src="images/illustrations/leaf-yellow.png" alt="illustrations" class="bg-shape-3">
     <img src="images/illustrations/leaf-orange.png" alt="illustrations" class="bg-shape-4">
     <img src="images/illustrations/dots-group-cyan.png" alt="illustrations" class="bg-shape-5">
-    <img src="images/illustrations/leaf-cyan-lg.png" alt="illustrations" class="bg-shape-6">
+
 </section>
 <!-- /page title -->
 
@@ -72,8 +91,8 @@
     <div class="container">
         <div class="row">
 
-            <div class="card p-5" style="min-height: 200px; width: 100%" >
-                <table class="table table-striped table-responsive" id="listar">
+            <div class="card p-5 " style="min-height: 200px; width: 100%" >
+                <table class="table table-striped" id="">
                     <thead>
                     <tr>
                         <th scope="col">Nome</th>
@@ -86,26 +105,53 @@
                     </thead>
                     <tbody>
                         <?php
+                        if ($usuarios) {
                             foreach ($usuarios as $usuario) {
                                 echo "<tr>";
-                                echo "<td class='align-middle'>".$usuario['nome']."</td>";
-                                echo "<td class='align-middle'>".$usuario['email']."</td>";
-                                echo "<td class='align-middle'>".$usuario['cpf']."</td>";
-                                echo "<td class='align-middle'>".$usuario['telefone']."</td>";
-                                echo "<td class='align-middle'>".$usuario['cep']."</td>";
+                                echo "<td class='align-middle'>" . $usuario['nome'] . "</td>";
+                                echo "<td class='align-middle'>" . $usuario['email'] . "</td>";
+                                echo "<td class='align-middle'>" . $usuario['cpf'] . "</td>";
+                                echo "<td class='align-middle'>" . $usuario['telefone'] . "</td>";
+                                echo "<td class='align-middle'>" . $usuario['cep'] . "</td>";
                                 echo "<td class='align-middle'><div class='row'>
                                             <div class='col-6 p-1'>
-                                                <a href='editar.php?id=".$usuario['id']."' class='btn btn-primary p-1' style='font-size: 15px'>Editar</a>
+                                                <a href='editar.php?id=" . $usuario['id'] . "' class='btn btn-primary p-1' style='font-size: 12px; font-weight: 100'>Editar</a>
                                             </div>
                                             <div class='col-6 p-1'>
-                                                <a href='excluir.php?id=".$usuario['id']."' class='btn btn-danger p-1' style='font-size: 15px'>Excluir</a>
+                                                <a href='excluir.php?id=" . $usuario['id'] . "' class='btn btn-danger p-1' style='font-size: 12px; font-weight: 100'>Excluir</a>
                                             </div>
                                         </div></td>";
                                 echo "</tr>";
                             }
+
+                        } else {
+                            echo "<tr><td colspan='6' class='text-center'>Nenhum registro encontrado</td></tr>";
+                        }
                         ?>
                     </tbody>
+
                 </table>
+                <?php
+                    $quant = $conn->query("SELECT COUNT(id) FROM usuarios")->fetch();
+                    $quant_pagina = ceil(intval($quant[0]) / $limite);
+
+                    $max_links = 2;
+
+                    echo "<div class='row pagination'>";
+                    echo " <a href='listar.php?page=1'>Primeira</a>";
+                    for ($pagina_anterior = $pagina - $max_links; $pagina_anterior <= $pagina - 1; $pagina_anterior++) {
+                        if ($pagina_anterior >= 1) {
+                            echo " <a href='listar.php?page=$pagina_anterior'>$pagina_anterior</a>";
+                        }
+                    }
+                    echo "<a href='#'>$pagina</a>";
+                    for ($proxima_pagina = $pagina + 1; $proxima_pagina <= $pagina + $max_links; $proxima_pagina++) {
+                        if ($proxima_pagina <= $quant_pagina) {
+                            echo " <a href='listar.php?page=$proxima_pagina'>$proxima_pagina</a>";
+                        }
+                    }
+                    echo " <a href='listar.php?page=$quant_pagina'>Última</a></div>";
+                ?>
             </div>
         </div>
     </div>
