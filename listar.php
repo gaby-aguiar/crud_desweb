@@ -120,6 +120,8 @@
                                             <div class='col-6 p-1'>
                                                 <a href='excluir.php?id=" . $usuario['id'] . "' class='btn btn-danger p-1' style='font-size: 12px; font-weight: 100'>Excluir</a>
                                             </div>
+                                            <div class='col-12 p-1'>
+                                                <a href='visualizar.php?id=" . $usuario['id'] . "' class='btn btn-success p-1' style='font-size: 12px; font-weight: 100'>Visualizar</a>
                                         </div></td>";
                                 echo "</tr>";
                             }
