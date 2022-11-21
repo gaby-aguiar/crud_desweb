@@ -10,5 +10,6 @@ CREATE TABLE `usuarios` (
     `bairro` varchar(220) NOT NULL,
     `cidade` varchar(220) NOT NULL,
     `uf` varchar(2) NOT NULL,
+    `status` varchar(1) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

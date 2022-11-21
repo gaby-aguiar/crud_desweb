@@ -40,7 +40,7 @@
 
     $inicio = ($limite * $pagina) - $limite;
 
-    $usuarios = $conn->query("SELECT * FROM usuarios ORDER BY id desc LIMIT $inicio, $limite")->fetchAll();
+    $usuarios = $conn->query("SELECT * FROM usuarios WHERE status = 'A' ORDER BY id desc LIMIT $inicio, $limite")->fetchAll();
 
 ?>
 
@@ -108,7 +108,7 @@
                         if ($usuarios) {
                             foreach ($usuarios as $usuario) {
                                 echo "<tr>";
-                                echo "<td class='align-middle'>" . $usuario['nome'] . "</td>";
+                                echo "<td class='align-middle'> <a href='visualizar.php?id=" . $usuario['id'] . "'>" . $usuario['nome'] . "</a></td>";
                                 echo "<td class='align-middle'>" . $usuario['email'] . "</td>";
                                 echo "<td class='align-middle'>" . $usuario['cpf'] . "</td>";
                                 echo "<td class='align-middle'>" . $usuario['telefone'] . "</td>";
@@ -120,9 +120,7 @@
                                             <div class='col-6 p-1'>
                                                 <a href='excluir.php?id=" . $usuario['id'] . "' class='btn btn-danger p-1' style='font-size: 12px; font-weight: 100'>Excluir</a>
                                             </div>
-                                            <div class='col-12 p-1'>
-                                                <a href='visualizar.php?id=" . $usuario['id'] . "' class='btn btn-success p-1' style='font-size: 12px; font-weight: 100'>Visualizar</a>
-                                        </div></td>";
+                                            </td>";
                                 echo "</tr>";
                             }
 
