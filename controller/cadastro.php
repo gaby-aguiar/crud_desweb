@@ -25,6 +25,7 @@ include_once '../config/conexao.php';
             $bairro = filter_input(INPUT_POST, "bairro", FILTER_SANITIZE_STRING);
             $cidade = filter_input(INPUT_POST, "cidade", FILTER_SANITIZE_STRING);
             $uf = filter_input(INPUT_POST, "uf", FILTER_SANITIZE_STRING);
+            $a = 'A';
 
             $stmt = $conn->prepare("
                 INSERT INTO usuarios (
@@ -36,8 +37,9 @@ include_once '../config/conexao.php';
                     rua,
                     bairro,
                     cidade,
-                    uf               
-                ) VALUES (?,?,?,?,?,?,?,?,?)
+                    uf,
+                    status
+                ) VALUES (?,?,?,?,?,?,?,?,?,?)
             ");
 
             $stmt->bindParam(1, $nome);
@@ -49,6 +51,7 @@ include_once '../config/conexao.php';
             $stmt->bindParam(7, $bairro);
             $stmt->bindParam(8, $cidade);
             $stmt->bindParam(9, $uf);
+            $stmt->bindParam(10, $a);
 
             $stmt->execute();
 

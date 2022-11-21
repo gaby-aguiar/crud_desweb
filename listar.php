@@ -15,6 +15,8 @@
 
     <link href="css/style.css" rel="stylesheet">
     <link href="js/data-tables/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <style>
         .pagination {
@@ -33,6 +35,8 @@
 
 <?php
     include_once 'config/conexao.php';
+    session_start();
+
     $pagina_atual = filter_input(INPUT_GET, "page", FILTER_SANITIZE_NUMBER_INT);
     $pagina = (!empty($pagina_atual)) ? $pagina_atual : 1;
 
@@ -64,6 +68,37 @@
         </div>
     </nav>
 </header>
+
+<?php
+    if (isset($_SESSION['msg'])) {
+        if ($_SESSION['status'] == true){ ?>
+        <script>
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Sucesso',
+                text: '<?php echo $_SESSION['msg'];?>',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            <?php unset($_SESSION['msg']); ?>
+
+        </script>
+<?php } else { ?>
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Erro',
+            text: '<?php echo $_SESSION['msg'];?>',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        <?php unset($_SESSION['msg']); ?>
+
+    </script>
+<?php } } ?>
+
 
 <!-- page title -->
 <section class="page-title-alt bg-primary position-relative">
@@ -118,7 +153,7 @@
                                                 <a href='editar.php?id=" . $usuario['id'] . "' class='btn btn-primary p-1' style='font-size: 12px; font-weight: 100'>Editar</a>
                                             </div>
                                             <div class='col-6 p-1'>
-                                                <a href='excluir.php?id=" . $usuario['id'] . "' class='btn btn-danger p-1' style='font-size: 12px; font-weight: 100'>Excluir</a>
+                                                <a href='controller/excluir.php?id=" . $usuario['id'] . "' class='btn btn-danger p-1' style='font-size: 12px; font-weight: 100'>Excluir</a>
                                             </div>
                                             </td>";
                                 echo "</tr>";
@@ -201,6 +236,7 @@
             "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json"
         }
     });
+
 </script>
 </body>
 </html>

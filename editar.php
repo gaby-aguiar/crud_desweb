@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 
@@ -7,19 +6,46 @@
     <title>CRUD</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<!--    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png"/>-->
+
     <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
+
     <link rel="stylesheet" href="plugins/slick/slick.css">
+
     <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
+
     <link href="css/style.css" rel="stylesheet">
-    <script src="js/viacep.js"></script>
+    <link href="js/data-tables/css/dataTables.bootstrap4.css" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <style>
+        .pagination {
+            border: 1px solid #dddddd;
+        }
+        .pagination{
+            align-self: flex-end;
+        }
+        .pagination a{
+            border-left: 1px solid #dddddd;
+            padding: 8px 12px;
+        }
+    </style>
 </head>
 <body>
 
+<?php
+include_once 'config/conexao.php';
+
+$id =filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
+
+
+$usuario = $conn->query("SELECT * FROM usuarios where id = $id")->fetch();
+
+
+?>
+
 <header class="navigation fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand font-tertiary h3" href="index.html"><img src="images/logo.png" alt="Myself" hidden></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
                 aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -27,116 +53,98 @@
 
         <div class="collapse navbar-collapse text-center" id="navigation">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a class="nav-link" href="index.html">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="listar.php">Listar</a>
                 </li>
+
             </ul>
         </div>
     </nav>
 </header>
 
-<!-- hero area -->
-<section class="hero-area bg-primary" id="parallax">
+<!-- page title -->
+<section class="page-title-alt bg-primary position-relative">
     <div class="container">
         <div class="row">
-            <div class="col-lg-11 mx-auto">
-                <h1 class="text-white font-tertiary">CRUD<br> by: Gaby <br></h1>
+            <div class="col-12">
+                <h1 class="text-white font-tertiary">Editar</h1>
             </div>
         </div>
     </div>
-    <div class="layer-bg w-100">
-        <img class="img-fluid w-100" src="images/illustrations/leaf-bg.png" alt="bg-shape">
-    </div>
-    <div class="layer" id="l2">
-        <img src="images/illustrations/dots-cyan.png" alt="bg-shape">
-    </div>
-    <div class="layer" id="l3">
-        <img src="images/illustrations/leaf-orange.png" alt="bg-shape">
-    </div>
-    <div class="layer" id="l4">
-        <img src="images/illustrations/dots-orange.png" alt="bg-shape">
-    </div>
-    <div class="layer" id="l5">
-        <img src="images/illustrations/leaf-yellow.png" alt="bg-shape">
-    </div>
-    <div class="layer" id="l6">
-        <img src="images/illustrations/leaf-cyan.png" alt="bg-shape">
-    </div>
-    <div class="layer" id="l7">
-        <img src="images/illustrations/dots-group-orange.png" alt="bg-shape">
-    </div>
-    <div class="layer" id="l8">
-        <img src="images/illustrations/leaf-pink-round.png" alt="bg-shape">
-    </div>
-    <div class="layer" id="l9">
-        <img src="images/illustrations/leaf-cyan-2.png" alt="bg-shape">
-    </div>
-    <!-- social icon -->
-    <ul class="list-unstyled ml-5 mt-3 position-relative zindex-1">
-        <li class="mb-3"><a class="text-white" href="https://themefisher.com/"><i class="ti-facebook"></i></a></li>
-        <li class="mb-3"><a class="text-white" href="https://themefisher.com/"><i class="ti-instagram"></i></a></li>
-        <li class="mb-3"><a class="text-white" href="https://themefisher.com/"><i class="ti-dribbble"></i></a></li>
-        <li class="mb-3"><a class="text-white" href="https://themefisher.com/"><i class="ti-twitter"></i></a></li>
-    </ul>
-    <!-- /social icon -->
-</section>
-<!-- /hero area -->
+    <!-- background shapes -->
+    <img src="images/illustrations/leaf-bg-top.png" alt="illustrations" class="bg-shape-1 w-100">
+    <img src="images/illustrations/dots-group-sm.png" alt="illustrations" class="bg-shape-2">
+    <img src="images/illustrations/leaf-yellow.png" alt="illustrations" class="bg-shape-3">
+    <img src="images/illustrations/leaf-orange.png" alt="illustrations" class="bg-shape-4">
+    <img src="images/illustrations/dots-group-cyan.png" alt="illustrations" class="bg-shape-5">
 
-<!-- contact -->
-<section class="section form" data-background="images/backgrounds/bg-dots.png" >
+</section>
+<!-- /page title -->
+
+
+
+<!-- team -->
+<section class="section bg-cover" data-background="images/backgrounds/team-bg.png">
     <div class="container">
         <div class="row">
-            <div class="col-12 text-center">
-                <h2 class="section-title">Formulário</h2>
-            </div>
-            <div class="col-lg-10 mx-auto">
+
+            <div class="card p-5 " style="min-height: 200px; width: 100%" >
+
                 <div class="bg-white rounded text-center p-5 shadow-down">
-                    <h4 class="mb-80">Formulário de cadastro</h4>
+                    <h4 class="mb-80">Informações de cadastro</h4>
                     <form id="cadastro" method="post" action="">
                         <div class="col-md-12">
-                            <input type="text" id="name" name="name" placeholder="Nome Completo" class="form-control px-0 mb-4" required>
+                            <label for="name" class="col-md-12" style="text-align-last: left; padding-left: 0px;">Nome:</label>
+                            <input type="text" id="name" name="name" placeholder="Nome Completo" class="form-control px-0 mb-4" value="<?= $usuario['nome']?>">
                         </div>
                         <div class="col-md-12">
-                            <input type="email" id="email" name="email" placeholder="Endereço de E-mail" class="form-control px-0 mb-4" required>
+                            <label for="email" class="col-md-12" style="text-align-last: left; padding-left: 0px;">E-mail:</label>
+                            <input type="email" id="email" name="email" placeholder="Endereço de E-mail" class="form-control px-0 mb-4" value="<?= $usuario['email']?>" >
                         </div>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control px-0 mb-4" required>
+                                    <label for="cpf" class="col-md-12" style="text-align-last: left; padding-left: 0px;">CPF:</label>
+                                    <input type="text" id="cpf" name="cpf" placeholder="CPF" class="form-control px-0 mb-4" value="<?= $usuario['cpf']?>" >
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="telefone" name="telefone" placeholder="Telefone" class="form-control px-0 mb-4" required>
+                                    <label for="telefone" class="col-md-12" style="text-align-last: left; padding-left: 0px;">Telefone:</label>
+                                    <input type="text" id="telefone" name="telefone" placeholder="Telefone" class="form-control px-0 mb-4" value="<?= $usuario['telefone']?>" >
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <input name="cep" type="text" id="cep" value="" placeholder="CEP" class="form-control px-0 mb-4" onblur="pesquisacep(this.value);" required>
+                                    <label for="cep" class="col-md-12" style="text-align-last: left; padding-left: 0px;">CEP:</label>
+                                    <input name="cep" type="text" id="cep" placeholder="CEP" class="form-control px-0 mb-4" value="<?= $usuario['cep']?>" >
                                 </div>
                                 <div class="col-md-8">
-                                    <input name="rua" type="text" id="rua" placeholder="Rua" class="form-control px-0 mb-4" required>
+                                    <label for="rua" class="col-md-12" style="text-align-last: left; padding-left: 0px;">Rua:</label>
+                                    <input name="rua" type="text" id="rua" placeholder="Rua" class="form-control px-0 mb-4" value="<?= $usuario['rua']?>" >
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-5">
-                                    <input name="bairro" type="text" id="bairro" placeholder="Bairro" class="form-control px-0 mb-4" required>
+                                    <label for="bairro" class="col-md-12" style="text-align-last: left; padding-left: 0px;">Bairro:</label>
+                                    <input name="bairro" type="text" id="bairro" placeholder="Bairro" class="form-control px-0 mb-4" value="<?= $usuario['bairro']?>" >
                                 </div>
                                 <div class="col-md-5">
-                                    <input name="cidade" type="text" id="cidade" placeholder="Cidade" class="form-control px-0 mb-4" required>
+                                    <label for="cidade" class="col-md-12" style="text-align-last: left; padding-left: 0px;">Cidade:</label>
+                                    <input name="cidade" type="text" id="cidade" placeholder="Cidade" class="form-control px-0 mb-4" value="<?= $usuario['cidade']?>" >
                                 </div>
                                 <div class="col-md-2">
-                                    <input name="uf" type="text" id="uf" placeholder="Estado" class="form-control px-0 mb-4" required>
+                                    <label for="uf" class="col-md-12" style="text-align-last: left; padding-left: 0px;">Estado:</label>
+                                    <input name="uf" type="text" id="uf" placeholder="Estado" class="form-control px-0 mb-4" value="<?= $usuario['uf']?>" >
                                 </div>
                             </div>
                         </div>
-
-
+                        <input name="id" type="text" id="id" placeholder="Estado" class="form-control px-0 mb-4" value="<?= $usuario['id']?>" hidden>
                         <div class="col-lg-3 col-md-8 col-sm-12 mx-auto">
                             <button class="btn btn-primary w-100" id="enviar">Enviar</button>
                         </div>
@@ -146,7 +154,8 @@
         </div>
     </div>
 </section>
-<!-- /contact -->
+<!-- /team -->
+
 
 <!-- footer -->
 <footer class="bg-dark">
@@ -167,17 +176,18 @@
 
 <!-- jQuery -->
 <script src="plugins/jQuery/jquery.min.js"></script>
-<!-- Bootstrap JS -->
 <script src="plugins/bootstrap/bootstrap.min.js"></script>
-<!-- slick slider -->
 <script src="plugins/slick/slick.min.js"></script>
-<!-- filter -->
 <script src="plugins/shuffle/shuffle.min.js"></script>
+
 <script src="js/jQuery-Mask-Plugin-master/src/jquery.mask.js"></script>
+<!--<script src="js/data-tables/js/dataTables.bootstrap4.js"></script>-->
+<script src="js/data-tables/js/jquery.dataTables.js"></script>
 
 
 <!-- Main Script -->
 <script src="js/script.js"></script>
+
 <script>
     $("body").on('click', '#enviar', function () {
 
@@ -186,12 +196,11 @@
 
         $.ajax({
             type : 'POST',
-            url: 'controller/cadastro.php',
+            url: 'controller/editar.php',
             data: form,
             dataType: 'json',
             success: function (result) {
-                console.log(result.msg);
-
+                console.log(result);
                 if (result.status == true) {
                     Swal.fire({
                         position: 'top-end',
@@ -220,10 +229,6 @@
     $("#telefone").mask("(99) 99999-9999");
     $("#cpf").mask("999.999.999-99");
     $("#cep").mask("99999-999");
-
-
 </script>
-
-
 </body>
 </html>
